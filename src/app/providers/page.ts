@@ -17,9 +17,8 @@ export class PageProvider {
     return this._page;
   }
 
-  public processStep<T extends Steps>(step: Steps, options: StepOption<T>): Promise<void> {
-    return this.steps<T>(options)[step].on(this._page).execute();
-  }
+  public processStep = <T extends Steps>(step: Steps, options: StepOption<T>): Promise<void> =>
+    this.steps<T>(options)[step].on(this._page).execute();
 
   public async close(): Promise<void> {
     console.log('Closing page');
