@@ -2,6 +2,11 @@
   "name": "@zigtech/scrapper",
   "version": "0.0.2",
   "description": "Scrapper.",
+  "keywords": [
+    "scrapper",
+    "crawler",
+    "puppeteer"
+  ],
   "homepage": "https://github.com/zigante/scrapper",
   "license": "ISC",
   "author": {
