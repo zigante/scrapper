@@ -1,7 +1,8 @@
 {
   "name": "@zigtech/scrapper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Scrapper.",
+  "homepage": "https://github.com/zigante/scrapper",
   "license": "ISC",
   "author": {
     "name": "@zigtech",
@@ -9,6 +10,7 @@
     "url": "https://github.com/zigante"
   },
   "main": "dist/src/index.js",
+  "repository": "https://github.com/zigante/scrapper",
   "scripts": {
     "fast-commit": "git add . && git commit -m 'fast commit'",
     "dev": "node -r dotenv/config node_modules\\ts-node\\dist\\bin.js src\\dev.ts",
