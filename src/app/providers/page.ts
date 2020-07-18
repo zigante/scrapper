@@ -1,5 +1,5 @@
-import { StepOption, Steps } from '@/core';
-import * as TYPES from '@/core/typings/steps';
+import { PageConfigs, StepOption, Steps } from '@/core';
+import * as TYPES from '@/core/types/steps.types';
 import { autobind } from 'core-decorators';
 import { Page } from 'puppeteer';
 import * as STEPS from '../steps';
@@ -10,14 +10,16 @@ import { BrowserProvider } from './browser';
 export class PageProvider {
   private _page!: Page;
 
+  constructor(private _configs: PageConfigs) {}
+
   public async open(): Promise<Page> {
-    this._page = await BrowserProvider.getBrowser();
+    this._page = await BrowserProvider.getBrowser(this._configs);
     this._page.setDefaultNavigationTimeout(60000);
 
     return this._page;
   }
 
-  public processStep = <T extends Steps>(step: Steps, options: StepOption<T>): Promise<void> =>
+  public processStep = <T extends Steps>(step: T, options: StepOption<T>): Promise<void> =>
     this.steps<T>(options)[step].on(this._page).execute();
 
   public async close(): Promise<void> {

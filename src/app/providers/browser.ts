@@ -1,19 +1,18 @@
+import { PageConfigs } from '@/core';
 import { executablePath } from 'chrome-aws-lambda';
 import { autobind } from 'core-decorators';
 import Puppeteer, { Browser, LaunchOptions, Page } from 'puppeteer';
-import { Config, ScrapperConfigs } from '@/core';
 
 @autobind
 export class BrowserProvider {
   private static _browserInstance: Promise<Browser>;
-  private _scrapperConfigs = Config.get<ScrapperConfigs>('SCRAPPER');
 
-  private constructor() {
+  private constructor(private _configs: PageConfigs) {
     BrowserProvider._browserInstance = this.launch();
   }
 
-  public static async getBrowser(): Promise<Page> {
-    if (!this._browserInstance) new BrowserProvider();
+  public static async getBrowser(configs: PageConfigs): Promise<Page> {
+    if (!this._browserInstance) new BrowserProvider(configs);
 
     return this._browserInstance.then(browser => browser.newPage());
   }
@@ -25,8 +24,9 @@ export class BrowserProvider {
   private launch = (): Promise<Browser> => this.getOptions().then(options => Puppeteer.launch({ ...options }));
 
   private async getOptions(): Promise<LaunchOptions> {
-    const { plataform } = this._scrapperConfigs;
-    const plataformIsLambda = 'lambda' === plataform?.toLowerCase();
+    const { headless, instanceType, plataform } = this._configs;
+    const isLinux = 'linux' === instanceType?.toLowerCase();
+    const isLambda = 'lambda' === plataform?.toLowerCase();
 
     const args = [
       '--disable-gpu',
@@ -38,16 +38,16 @@ export class BrowserProvider {
       '--memory-pressure-off',
       '--ignore-certificate-errors',
     ];
-    if (plataformIsLambda) args.push('--single-process');
+    if (!!isLinux) args.push('--single-process');
 
-    console.log(`Headless mode: ${plataformIsLambda}`);
+    console.log(`Headless mode: ${!!headless}`);
     const options: LaunchOptions = {
       args,
-      headless: plataformIsLambda,
+      headless: !!headless,
       timeout: 0,
       ignoreHTTPSErrors: true,
     };
-    if (plataformIsLambda) options.executablePath = await executablePath;
+    if (!!isLambda) options.executablePath = await executablePath;
 
     return options;
   }

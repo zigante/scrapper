@@ -17,7 +17,7 @@
     "build": "tsc -p .",
     "postbuild": "npx tsc-alias",
     "lint": "npm run lint:package && npm run lint:project",
-    "lint:project": "eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx .",
+    "lint:project": "npx eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx .",
     "lint:package": "npx npm-package-json-lint ."
   },
   "dependencies": {
@@ -38,6 +38,5 @@
     "ts-node": "8.10.2",
     "tsconfig-paths": "3.9.0",
     "typescript": "3.9.7"
-  },
-  "private": false
+  }
 }

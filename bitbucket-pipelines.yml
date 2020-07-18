@@ -1,0 +1,40 @@
+image:
+  name: node:12-buster
+
+definitions:
+  steps:
+    - step: &setup
+        name: Installing dependencies
+        caches:
+          - node
+        artifacts:
+          - node_modules/**
+        script:
+          - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=1 npm install --unsafe-perm=true
+    - step: &build
+        name: Linting and building
+        artifacts:
+          - dist/**
+        script:
+          - npm run lint:package
+          - npm run lint:project
+          - npm i -g typescript
+          - tsc --project .
+    - step: &publish
+        name: Publishing
+        script:
+          - npm publish --access public
+
+pipelines:
+  default:
+    - step: *setup
+    - step: *build
+    - step:
+        name: PrePublishing
+        script:
+          - npm publish --dry-run
+  branches:
+    stable:
+      - step: *setup
+      - step: *build
+      - step: *publish

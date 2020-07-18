@@ -1,5 +1,5 @@
-import { MouseButtons, Page } from 'puppeteer';
 import { BaseStep } from '@/app/steps/base';
+import { MouseButtons, Page } from 'puppeteer';
 
 export interface IBaseStep {
   on(page: Page): BaseStep;
