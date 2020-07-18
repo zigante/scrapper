@@ -1,0 +1,36 @@
+{
+  "compileOnSave": true,
+  "extends": "./tsconfig.paths.json",
+  "compilerOptions": {
+    "strict": true,
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "target": "ES6",
+    "module": "CommonJS",
+    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "declaration": true,
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowJs": false,
+    "declarationMap": false,
+    "newLine": "lf",
+    "noImplicitAny": true,
+    "noUnusedParameters": true,
+    "pretty": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "package.json"
+  ],
+  "exclude": [
+    "test/",
+    "dist/",
+    "debug/",
+    "node_modules/"
+  ]
+}

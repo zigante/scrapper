@@ -1,0 +1,43 @@
+{
+  "name": "@zigtech/scrapper",
+  "version": "0.0.1",
+  "description": "Scrapper.",
+  "license": "ISC",
+  "author": {
+    "name": "@zigtech",
+    "email": "zigante.pedro@gmail.com",
+    "url": "https://github.com/zigante"
+  },
+  "main": "dist/src/index.js",
+  "scripts": {
+    "fast-commit": "git add . && git commit -m 'fast commit'",
+    "dev": "node -r dotenv/config node_modules\\ts-node\\dist\\bin.js src\\dev.ts",
+    "install-packages": "npm install --unsafe-perm=true",
+    "prebuild": "rm -rf dist && npm run lint",
+    "build": "tsc -p .",
+    "postbuild": "npx tsc-alias",
+    "lint": "npm run lint:package && npm run lint:project",
+    "lint:project": "eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx .",
+    "lint:package": "npx npm-package-json-lint ."
+  },
+  "dependencies": {
+    "chrome-aws-lambda": "3.1.1",
+    "core-decorators": "0.20.0",
+    "dotenv": "8.2.0",
+    "puppeteer": "3.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "12.12.50",
+    "@types/puppeteer": "3.0.1",
+    "@typescript-eslint/eslint-plugin": "3.6.1",
+    "@typescript-eslint/parser": "3.6.1",
+    "eslint": "7.4.0",
+    "eslint-plugin-prettier": "3.1.4",
+    "husky": "4.2.5",
+    "prettier": "2.0.5",
+    "ts-node": "8.10.2",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "3.9.7"
+  },
+  "private": false
+}

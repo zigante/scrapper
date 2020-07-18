@@ -1,0 +1,11 @@
+.vscode/
+debug/
+node_modules/
+src/
+tmp/
+
+package-lock.json
+
+/.*
+*.zip
+*.log

@@ -1,0 +1,19 @@
+rules:
+  no-restricted-dependencies:
+    - error
+    - - '@types/*'
+      - typescript
+      - ts-node
+      - eslint-*
+  no-repeated-dependencies: error
+  prefer-absolute-version-dependencies: error
+  description-format:
+    - error
+    - requireCapitalFirstLetter: true
+      requireEndingPeriod: true
+  name-format: error
+  version-format: error
+  prefer-property-order:
+    - warning
+    - []
+  no-duplicate-properties: error
