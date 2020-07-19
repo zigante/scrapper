@@ -25,8 +25,6 @@ export class BrowserProvider {
 
   private async getOptions(): Promise<LaunchOptions> {
     const { headless, instanceType, plataform } = this._configs;
-    const isLinux = 'linux' === instanceType?.toLowerCase();
-    const isLambda = 'lambda' === plataform?.toLowerCase();
 
     const args = [
       '--disable-gpu',
@@ -38,7 +36,7 @@ export class BrowserProvider {
       '--memory-pressure-off',
       '--ignore-certificate-errors',
     ];
-    if (!!isLinux) args.push('--single-process');
+    if ('linux' === instanceType) args.push('--single-process');
 
     console.debug(`Headless mode: ${!!headless}`);
     const options: LaunchOptions = {
@@ -47,7 +45,7 @@ export class BrowserProvider {
       timeout: 0,
       ignoreHTTPSErrors: true,
     };
-    if (!!isLambda) options.executablePath = await executablePath;
+    if ('lambda' === plataform) options.executablePath = await executablePath;
 
     return options;
   }

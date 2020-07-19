@@ -1,13 +1,20 @@
-import { JobStep, Page } from '../src';
+import { JobStep, Page, ScrapperOptions } from '../src';
 
 const run = async () => {
-  const page = new Page({ resultPath: './tmp' });
+  const options: ScrapperOptions = {
+    resultPath: './tmp',
+    headless: false,
+    instanceType: 'other',
+    plataform: 'other',
+  };
+  const page = new Page({ ...options });
+
   await page.open();
 
   const stepOne: JobStep<'navigate'> = {
     step: 'navigate',
     options: {
-      url: 'https://www.gosdsogle.com',
+      url: 'https://github.com/zigante/scrapper',
       waitTime: 1000,
     },
   };
@@ -15,12 +22,13 @@ const run = async () => {
   const stepTwo: JobStep<'click'> = {
     step: 'click',
     options: {
-      selector: 'sahdjka',
+      selector: '.any > #selector',
       waitTime: 1000,
     },
   };
 
-  for (const { options, step } of [stepOne, stepTwo]) {
+  const steps = [stepOne, stepTwo];
+  for (const { options, step } of steps) {
     console.log('Running ' + step);
     await page.processStep(step, options).catch(({ message }: Error) => console.error(message));
   }
