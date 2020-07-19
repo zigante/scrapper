@@ -1,9 +1,10 @@
 import { BaseStep } from '@/app/steps/base';
 import { MouseButtons, Page } from 'puppeteer';
+import { Result } from './scrapper.types';
 
 export interface IBaseStep {
   on(page: Page): BaseStep;
-  execute(): Promise<void>;
+  execute(result: Result): Promise<void>;
 }
 
 export type Steps = 'click' | 'await' | 'navigate' | 'screenshot' | 'download' | 'fill' | 'select';
@@ -24,7 +25,7 @@ export type StepOption<T extends Steps> = T extends 'click'
 
 export type ElementClickerOptions = {
   selector: string;
-  usePointer?: boolean;
+  isNavigation?: boolean;
   waitTime?: number;
   button?: MouseButtons;
 };
@@ -39,7 +40,7 @@ export type UrlNavigatorOptions = {
 };
 
 export type ContentOptions = {
-  path: string;
+  path?: string;
 };
 
 export type InputFillerOptions = {

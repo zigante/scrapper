@@ -1,4 +1,4 @@
-import { IBaseStep } from '@/core';
+import { IBaseStep, Result } from '@/core';
 import { autobind } from 'core-decorators';
 import { Page } from 'puppeteer';
 
@@ -16,5 +16,5 @@ export abstract class BaseStep implements IBaseStep {
     return this;
   }
 
-  abstract async execute(): Promise<void>;
+  abstract async execute(result: Result): Promise<void>;
 }

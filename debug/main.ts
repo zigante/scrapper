@@ -7,17 +7,29 @@ const run = async () => {
   const stepOne: JobStep<'navigate'> = {
     step: 'navigate',
     options: {
-      url: 'https://google.com',
+      url: 'https://www.gosdsogle.com',
       waitTime: 1000,
     },
   };
 
-  for (const { options, step } of [stepOne]) {
+  const stepTwo: JobStep<'click'> = {
+    step: 'click',
+    options: {
+      selector: 'sahdjka',
+      waitTime: 1000,
+    },
+  };
+
+  for (const { options, step } of [stepOne, stepTwo]) {
     console.log('Running ' + step);
     await page.processStep(step, options).catch(({ message }: Error) => console.error(message));
   }
 
   await page.close();
+
+  const result = page.getResults();
+
+  return result;
 };
 
 run();

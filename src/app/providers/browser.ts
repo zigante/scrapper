@@ -40,7 +40,7 @@ export class BrowserProvider {
     ];
     if (!!isLinux) args.push('--single-process');
 
-    console.log(`Headless mode: ${!!headless}`);
+    console.debug(`Headless mode: ${!!headless}`);
     const options: LaunchOptions = {
       args,
       headless: !!headless,

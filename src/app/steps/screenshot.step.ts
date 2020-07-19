@@ -1,4 +1,4 @@
-import { ContentOptions } from '@/core';
+import { ContentOptions, Result } from '@/core';
 import { autobind } from 'core-decorators';
 import { PageAwaiter } from './await.step';
 import { BaseStep } from './base';
@@ -9,9 +9,9 @@ export class ScreenshotTaker extends BaseStep {
     super();
   }
 
-  public async execute(): Promise<void> {
+  public async execute(result: Result): Promise<void> {
     try {
-      console.log('Taking screenshot');
+      console.debug('Taking screenshot');
       const { path } = this._options;
 
       const docHeight = await this.page
@@ -23,9 +23,14 @@ export class ScreenshotTaker extends BaseStep {
         .setViewport({ width: 1366, height: Math.abs(3000 - docHeight) })
         .then(() => this.page.screenshot({ fullPage: true, path: `${path}/screenshot.jpeg`, type: 'jpeg' }));
 
-      return new PageAwaiter({ waitTime: 50 }).execute();
+      result.screenshotTaked = true;
+
+      return new PageAwaiter({ waitTime: 200 }).execute(result);
     } catch (error) {
-      console.log(error);
+      const message = (error as Error).message;
+
+      result.warnings.push(message);
+      console.debug(message);
     }
   }
 }

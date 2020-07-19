@@ -1,4 +1,4 @@
-import { ContentOptions } from '@/core';
+import { ContentOptions, Result } from '@/core';
 import { autobind } from 'core-decorators';
 import { writeFileSync } from 'fs';
 import { PageAwaiter } from './await.step';
@@ -10,18 +10,23 @@ export class PageDownloader extends BaseStep {
     super();
   }
 
-  public async execute(): Promise<void> {
+  public async execute(result: Result): Promise<void> {
     try {
-      console.log('Downloading page');
+      console.debug('Downloading page');
       const { path } = this._options;
 
       const content = await this.page.content();
       const htmlFileContent = Buffer.from(content);
 
       writeFileSync(`${path}/index.html`, htmlFileContent, { encoding: 'base64' });
-      return new PageAwaiter({ waitTime: 50 }).execute();
+      result.pageDownload = true;
+
+      return new PageAwaiter({ waitTime: 50 }).execute(result);
     } catch (error) {
-      console.log(error);
+      const message = (error as Error).message;
+
+      result.warnings.push(message);
+      console.debug(message);
     }
   }
 }

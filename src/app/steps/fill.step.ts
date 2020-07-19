@@ -1,4 +1,4 @@
-import { InputFillerOptions } from '@/core';
+import { InputFillerOptions, Result } from '@/core';
 import { autobind } from 'core-decorators';
 import { PageAwaiter } from './await.step';
 import { BaseStep } from './base';
@@ -9,17 +9,26 @@ export class InputFiller extends BaseStep {
     super();
   }
 
-  public async execute(): Promise<void> {
-    try {
-      console.log('Filling input');
-      const { selector, value, delay = 100, waitTime = 200 } = this._options;
+  public async execute(result: Result): Promise<void> {
+    console.debug('Filling input');
+    const { waitTime = 200, selector, value } = this._options;
 
-      const element = await this.page.$(selector);
-      if (!element) throw new Error(`Elemente ${selector} does not exist`);
+    await this.executeInputFiller().catch(({ message }: Error) => {
+      result.warnings.push(message);
+      console.debug(message);
+    });
 
-      return element.type(value, { delay }).then(() => new PageAwaiter({ waitTime }).execute());
-    } catch (error) {
-      console.log(error);
-    }
+    console.debug(`Set value of "${selector}" to "${value}"`);
+
+    new PageAwaiter({ waitTime }).execute(result);
+  }
+
+  private async executeInputFiller() {
+    const { selector, value, delay = 100 } = this._options;
+
+    const element = await this.page.$(selector);
+    if (!element) throw new Error(`Elemente ${selector} does not exist`);
+
+    return element.type(value, { delay });
   }
 }

@@ -1,2 +1,2 @@
-'src/**/*.{ts,tsx}?':
-  - npm run lint:package && npm run lint:project
+'src/**/*.ts':
+  - npm run lint:project

@@ -1,4 +1,4 @@
-import { PageAwaiterOptions } from '@/core';
+import { PageAwaiterOptions, Result } from '@/core';
 import { autobind } from 'core-decorators';
 import { BaseStep } from './base';
 
@@ -8,9 +8,15 @@ export class PageAwaiter extends BaseStep {
     super();
   }
 
-  public async execute(): Promise<void> {
+  public async execute(result: Result): Promise<void> {
     const { waitTime } = this._options;
-    console.log('Awaiting');
-    return new Promise(resolve => setTimeout(() => resolve(), waitTime));
+    console.debug(`Waiting for ${waitTime / 1000} seconds.`);
+
+    await new Promise(resolve => setTimeout(() => resolve(), waitTime)).catch(({ message }: Error) => {
+      result.warnings.push(message);
+      console.debug(message);
+    });
+
+    console.debug('Page is ready to proceed.');
   }
 }
