@@ -1,6 +1,6 @@
-import { JobStep, Page, ScrapperOptions } from '../src';
+import { JobStep, Page, ScrapperOptions, ScrapperResult } from '../src';
 
-const run = async () => {
+const run = async (): Promise<ScrapperResult> => {
   const options: ScrapperOptions = {
     resultPath: './tmp',
     headless: false,
