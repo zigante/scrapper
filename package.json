@@ -5,7 +5,11 @@
   "keywords": [
     "scrapper",
     "crawler",
-    "puppeteer"
+    "puppeteer",
+    "serverless",
+    "lambda",
+    "chrome-aws-lambda",
+    "headless"
   ],
   "homepage": "https://github.com/zigante/scrapper",
   "license": "ISC",
