@@ -1,2 +1,4 @@
 'src/**/*.ts':
   - npm run lint:project
+'package.json':
+  - npm run lint:package

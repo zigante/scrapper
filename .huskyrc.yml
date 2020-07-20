@@ -1,4 +1,4 @@
 hooks:
   post-checkout: npm run install-packages
-  pre-commit: npx lint-staged && npm run lint:package &&  tsc -p .
+  pre-commit: npx lint-staged && tsc -p .
   pre-push: npm run lint
