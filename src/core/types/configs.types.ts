@@ -2,7 +2,7 @@ export type PageConfigs = {
   instanceType?: InstanceType;
   plataform?: Plataform;
   headless?: boolean;
-  resultPath: string;
+  resultsBasePath: string;
 };
 
 export type Plataform = 'lambda' | 'other';

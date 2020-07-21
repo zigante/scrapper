@@ -5,4 +5,5 @@ export type Result = {
   errors: string[];
   dateTime: Date;
   finalUrl?: string;
+  resultsPath: string;
 };
