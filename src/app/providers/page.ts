@@ -1,11 +1,9 @@
-import { PageConfigs, Result, StepOption, Steps } from '@/core';
-import * as TYPES from '@/core/types/steps.types';
+import { AnyType, PageConfigs, Result, StepOption, Steps } from '@/core';
 import { autobind } from 'core-decorators';
 import { mkdirSync, rmdirSync } from 'fs';
 import { Page } from 'puppeteer';
 import { v4 as uuid } from 'uuid';
 import * as STEPS from '../steps';
-import { BaseStep } from '../steps/base';
 import { BrowserProvider } from './browser';
 
 @autobind
@@ -49,8 +47,8 @@ export class PageProvider {
   }
 
   public processStep = <T extends Steps>(step: T, options: StepOption<T>): Promise<void> =>
-    this.steps<T>(options) /* eslint-disable no-unexpected-multiline */
-      [step].on(this._page)
+    new this.steps[step]({ path: this._configs.resultsBasePath, ...options })
+      .on(this._page)
       .execute(this._results)
       .catch(({ message }: Error) => {
         this._results.errors.push(message);
@@ -66,15 +64,15 @@ export class PageProvider {
     return pages > 1 ? Promise.resolve() : BrowserProvider.closeBrowser();
   }
 
-  private steps = <T extends Steps>(options: StepOption<T>): Record<Steps, BaseStep> => ({
-    click: new STEPS.ElementClicker(options as TYPES.ElementClickerOptions),
-    await: new STEPS.PageAwaiter(options as TYPES.PageAwaiterOptions),
-    navigate: new STEPS.UrlNavigator(options as TYPES.UrlNavigatorOptions),
-    download: new STEPS.PageDownloader({ path: this._configs.resultsBasePath, ...options } as TYPES.ContentOptions),
-    screenshot: new STEPS.ScreenshotTaker({ path: this._configs.resultsBasePath, ...options } as TYPES.ContentOptions),
-    fill: new STEPS.InputFiller(options as TYPES.InputFillerOptions),
-    select: new STEPS.OptionSelector(options as TYPES.OptionSelectorOptions),
-  });
+  private steps: Record<Steps, AnyType> = {
+    click: STEPS.ElementClicker,
+    await: STEPS.PageAwaiter,
+    navigate: STEPS.UrlNavigator,
+    download: STEPS.PageDownloader,
+    screenshot: STEPS.ScreenshotTaker,
+    fill: STEPS.InputFiller,
+    select: STEPS.OptionSelector,
+  };
 
   public getResults = (): Result => ({
     ...this._results,

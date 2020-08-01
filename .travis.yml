@@ -12,3 +12,7 @@ before_script:
 script:
   - npm run build
   - npm publish
+
+branches:
+  only:
+    - stable

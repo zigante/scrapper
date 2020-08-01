@@ -1,7 +1,7 @@
 {
   "name": "@zigtech/scrapper",
-  "version": "0.0.6",
-  "description": "Scrapper.",
+  "version": "0.0.7",
+  "description": "Headless scrapper developed to run in serverfull and serverless infra.",
   "keywords": [
     "scrapper",
     "crawler",
@@ -29,7 +29,8 @@
     "postbuild": "npx tsc-alias",
     "lint": "npm run lint:package && npm run lint:project",
     "lint:project": "npx eslint --max-warnings 0 --ext .js,.jsx,.ts,.tsx .",
-    "lint:package": "npx npm-package-json-lint ."
+    "lint:package": "npx npm-package-json-lint .",
+    "link-package": "npm run build && npm link"
   },
   "dependencies": {
     "chrome-aws-lambda": "3.1.1",
@@ -37,15 +38,15 @@
     "dotenv": "8.2.0",
     "fs": "0.0.1-security",
     "puppeteer": "3.3.0",
-    "uuid": "8.2.0"
+    "uuid": "8.3.0"
   },
   "devDependencies": {
-    "@types/node": "12.12.50",
+    "@types/node": "12.12.53",
     "@types/puppeteer": "3.0.1",
     "@types/uuid": "8.0.0",
-    "@typescript-eslint/eslint-plugin": "3.6.1",
-    "@typescript-eslint/parser": "3.6.1",
-    "eslint": "7.4.0",
+    "@typescript-eslint/eslint-plugin": "3.7.1",
+    "@typescript-eslint/parser": "3.7.1",
+    "eslint": "7.5.0",
     "eslint-plugin-prettier": "3.1.4",
     "husky": "4.2.5",
     "prettier": "2.0.5",
